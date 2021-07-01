@@ -1,0 +1,249 @@
+<link
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+  rel="stylesheet"
+/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-xl-3" *ngFor="let employee of employees">
+      <div class="card m-b-30">
+        <div class="card-body row">
+          <div class="col-6">
+            <a href=""
+              ><img
+                src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                alt=""
+                class="img-fluid rounded-circle w-60"
+            /></a>
+          </div>
+        </div>
+        <div class="m-2">
+          <h6>{{ employee?.lastName }}, {{ employee.firstName }}</h6>
+          <i class="fa fa-envelope float-left">
+            <a class="m-2" href="#">{{ employee?.email }}</a>
+          </i>
+        </div>
+        <div class="card-body">
+          <div class="float-right btn-group btn-group-sm">
+            <button
+              class="btn btn-default"
+              (click)="selectEmployee(employee)"
+              data-placement="top"
+              data-original-title="Info"
+              data-toggle="modal"
+              data-target="#viewEmployeeModal"
+            >
+              <i class="fa fa-info-circle"></i>
+            </button>
+            <button
+              class="btn btn-default"
+              data-placement="top"
+              data-original-title="Edit"
+              (click)="selectEmployee(employee)"
+              data-toggle="modal"
+              data-target="#editEmployeeModal"
+            >
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button
+              (click)="deleteEmployee(employee)"
+              class="btn btn-default"
+              data-placement="top"
+              data-original-title="Delete"
+            >
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="collapse" id="collapseInfo">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <i class="fa fa-phone float-right"></i>Phone :
+              {{ employee?.phoneNumber }}
+            </li>
+            <li class="list-group-item">
+              <i class="fa fa-birthday-cake float-right"></i>DOB :
+              {{ employee?.dateOfBirth }}
+            </li>
+            <li class="list-group-item">
+              <i class="fa fa-calendar float-right"></i>DOJ :
+              {{ employee?.dateOfJoin }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div
+  class="modal fade"
+  id="editEmployeeModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editEmployeeModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEmployeeModalTitle">
+          {{ selectedEmployee?.lastName }}, {{ selectedEmployee?.firstName }}
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <input
+            type="hidden"
+            ngModel="{{ selectedEmployee?.emp_id }}"
+            name="emp_id"
+            class="form-control"
+            id="emp_id"
+          />
+          <div class="form-group">
+            <label for="name">First Name</label>
+            <input
+              type="text"
+              ngModel="{{ selectedEmployee?.firstName }}"
+              name="firstName"
+              class="form-control"
+              id="firstName"
+              aria-describedby="emailHelp"
+              placeholder="First Name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="name">Last Name</label>
+            <input
+              type="text"
+              ngModel="{{ selectedEmployee?.lastName }}"
+              name="lastName"
+              class="form-control"
+              id="lastName"
+              aria-describedby="emailHelp"
+              placeholder="Last Name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              ngModel="{{ selectedEmployee?.email }}"
+              name="email"
+              class="form-control"
+              id="email"
+              placeholder="Email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Birth Date</label>
+            <input
+              type="text"
+              ngModel="{{ selectedEmployee?.dateOfBirth }}"
+              name="dob"
+              class="form-control"
+              id="dob"
+              placeholder="Birth Date"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input
+              type="text"
+              ngModel="{{ selectedEmployee?.phoneNumber }}"
+              name="phone"
+              class="form-control"
+              id="phone"
+              name="phone"
+              placeholder="Phone"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Joining Date</label>
+            <input
+              type="text"
+              ngModel="{{ selectedEmployee?.dateOfJoin }}"
+              name="doj"
+              class="form-control"
+              id="doj"
+              placeholder="Image URL"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id=""
+              data-dismiss="modal"
+              class="btn btn-danger"
+            >
+              Cancel
+            </button>
+            <button
+              (click)="updateEmployee(editForm.value)"
+              data-dismiss="modal"
+              class="btn btn-success"
+            >
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Modal -->
+<div
+  class="modal fade"
+  id="viewEmployeeModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewEmployeeModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewEmployeeModalTitle">
+          {{ selectedEmployee?.lastName }}, {{ selectedEmployee?.firstName }}
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <i class="fa fa-envelope float-right"></i>Email :
+            {{ selectedEmployee?.email }}
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-phone float-right"></i>Phone :
+            {{ selectedEmployee?.phoneNumber }}
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-birthday-cake float-right"></i>DOB :
+            {{ selectedEmployee?.dateOfBirth }}
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-calendar float-right"></i>DOJ :
+            {{ selectedEmployee?.dateOfJoin }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
