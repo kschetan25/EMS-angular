@@ -24,10 +24,11 @@ export class EmployeeService {
   }
 
   public deleteEmployee(emp_id: number): Observable<any> {
+    console.log('inDelete', emp_id);
     return this.http.delete(this.apiUrl + '/employees/' + emp_id);
   }
 
-  public updateEmployee(employee: Employee): Observable<any> {
-    return this.http.put<any>(this.apiUrl + '/employees', employee);
+  public updateEmployee(employees: any[]): Observable<any> {
+    return this.http.put<any>(this.apiUrl + '/employees', employees);
   }
 }
